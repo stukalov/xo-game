@@ -8,6 +8,10 @@ lines = ((0, 1, 2),
          (2, 5, 8),
          (0, 4, 8),
          (2, 4, 6))
+score = {
+    'user': 0,
+    'bot': 0
+}
 
 def print_game(field):
     output = [
@@ -107,13 +111,7 @@ def play(field, user, bot):
                 break
         except ValueError as e:
             print(e)
-
-    if won == user:
-        print('Вы выиграли')
-    elif won == bot:
-        print('Выиграл компьютер')
-    else:
-        print('Ничья')
+    return won
 
 print('Приветствую Вас в игре Крестики-Нолики\n')
 while True:
@@ -121,7 +119,23 @@ while True:
         start = choice_XO()
         if start is None:
             break
-        play([' ' for i in range(9)], *('X', '0') if start == 'X' else ('0', 'X'))
+        user, bot = ('X', '0') if start == 'X' else ('0', 'X')
+        won = play([' ' for i in range(9)], user, bot)
+        if won == user:
+            score['user'] += 1
+            print('Вы выиграли')
+        elif won == bot:
+            score['bot'] += 1
+            print('Выиграл компьютер')
+        else:
+            print('Ничья')
+        if score['user'] > score['bot']:
+            print(f"Счет {score['user']}:{score['bot']} в Вашу пользу")
+        elif score['user'] < score['bot']:
+            print(f"Счет {score['bot']}:{score['user']} в пользу компьютера")
+        else:
+            print(f"Счет ничейный {score['bot']}:{score['user']}")
+
         print('\n\n\nПоиграем еще раз?\n')
     except KeyboardInterrupt:
         print('')
