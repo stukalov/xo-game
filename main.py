@@ -61,7 +61,7 @@ def user_step(field):
         raise ValueError('Координата Y за пределами значений. Для Y укажите 1, 2 или 3')
     cell = (y - 1) * 3 + (x - 1)
     if field[cell] != ' ':
-        raise ValueError(f'Клетку {x}:{y} выбрать нельзя в ней уже есть "{field[cell]}"')
+        raise ValueError(f'Клетку {x}:{y} выбрать нельзя, в ней уже есть "{field[cell]}"')
     return cell
 
 def check_win(xo, field):
@@ -88,10 +88,12 @@ def choice_XO():
 
 def play(field, user, bot):
     play_step = 'X'
-    print_game(field)
+    if play_step == user:
+        print_game(field)
     while True:
         try:
             if play_step == user:
+                print('\nВаш ход:')
                 field[user_step(field)] = user
                 play_step = bot
             else:
@@ -115,11 +117,17 @@ def play(field, user, bot):
 
 print('Приветствую Вас в игре Крестики-Нолики\n')
 while True:
-    start = choice_XO()
-    if start is None:
+    try:
+        start = choice_XO()
+        if start is None:
+            break
+        play([' ' for i in range(9)], *('X', '0') if start == 'X' else ('0', 'X'))
+        print('\n\n\nПоиграем еще раз?\n')
+    except KeyboardInterrupt:
+        print('')
         break
-    play([' ' for i in range(9)], *('X', '0') if start == 'X' else ('0', 'X'))
-    print('\n\n\nПоиграем еще раз?\n')
+    except Exception:
+        print('Произошла ошибка\n')
 
 print('Игра закончена. Ждем Вас снова\n')
 
