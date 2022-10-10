@@ -140,7 +140,7 @@ while True:
     except KeyboardInterrupt:
         print('')
         break
-    except Exception:
+    except:
         print('Произошла ошибка\n')
 
 print('Игра закончена. Ждем Вас снова\n')
