@@ -14,18 +14,11 @@ score = {
 }
 
 def print_game(field):
-    output = [
-        '      1     2     3   (x)',
-        '   |-----|-----|-----|',
-        f' 1 |  {field[0]}  |  {field[1]}  |  {field[2]}  |',
-        '   |-----|-----|-----|',
-        f' 2 |  {field[3]}  |  {field[4]}  |  {field[5]}  |',
-        '   |-----|-----|-----|',
-        f' 3 |  {field[6]}  |  {field[7]}  |  {field[8]}  |',
-        '   |-----|-----|-----|',
-        '(y)'
-    ]
-    print('\n'.join(output))
+    sep = '\n   |-----|-----|-----|'
+    print('      1     2     3   (x)', sep)
+    for i in [0, 1, 2]:
+        print(f' {i+1} |  {field[i*3]}  |  {field[i*3+1]}  |  {field[i*3+2]}  |', sep)
+    print('(y)')
 
 def has_one_free_cell(field, xo):
     for line in lines:
@@ -120,7 +113,7 @@ while True:
         if start is None:
             break
         user, bot = ('X', '0') if start == 'X' else ('0', 'X')
-        won = play([' ' for i in range(9)], user, bot)
+        won = play([' '] * 9, user, bot)
         if won == user:
             score['user'] += 1
             print('Вы выиграли')
